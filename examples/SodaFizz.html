@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <style>
+       /* CSS code for styling the webpage */
+       body {
+           background: black;
+       }
+       #canvas {
+           position: absolute;
+           top: 0;
+           left: 0;
+       }
+   </style>
+</head>
+<body>
+   <canvas id="canvas"></canvas>
+   <script>
+       // JavaScript code for particle based animations
+       var canvas = document.getElementById('canvas');
+       var ctx = canvas.getContext('2d');
+
+       canvas.width = window.innerWidth;
+       canvas.height = window.innerHeight;
+
+       var particles = [];
+
+       function Particle(x, y) {
+           this.x = x;
+           this.y = y;
+           this.size = Math.random() * 5 + 1;
+           this.speedX = Math.random() * 3 - 1.5;
+           this.speedY = Math.random() * 3 - 1.5;
+       }
+
+       Particle.prototype.update = function() {
+           this.x += this.speedX;
+           this.y += this.speedY;
+
+           if (this.size > 0.2) this.size -= 0.1;
+       };
+
+       Particle.prototype.draw = function() {
+           ctx.fillStyle = '#8C5523';
+           ctx.strokeStyle = 'white';
+           ctx.lineWidth = 2;
+
+           ctx.beginPath();
+           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+           ctx.closePath();
+
+           ctx.fill();
+           ctx.stroke();
+       };
+
+       function createParticles(e) {
+           var xPos = e.x;
+           var yPos = e.y;
+
+           for (var i = 0; i < 5; i++) {
+               particles.push(new Particle(xPos, yPos));
+           }
+       }
+
+       function animateParticles() {
+           ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+           for (var i = 0; i < particles.length; i++) {
+               particles[i].update();
+               particles[i].draw();
+
+               if (particles[i].size <= 0.2) {
+                   particles.splice(i, 1);
+                   i--;
+               }
+           }
+
+           requestAnimationFrame(animateParticles);
+       }
+
+       canvas.addEventListener('mousemove', createParticles);
+       animateParticles();
+   </script>
+</body>
+</html>

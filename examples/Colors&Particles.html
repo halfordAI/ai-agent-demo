@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#header {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  padding: 20px;
+}
+</style>
+</head>
+<body>
+<div id='particles-js'></div>
+<div id='header'>
+  <button class='color-btn' data-bg='#ff0000' data-particles='#00ff00'>Color Scheme 1</button>
+  <button class='color-btn' data-bg='#ffff00' data-particles='#0000ff'>Color Scheme 2</button>
+  <button class='color-btn' data-bg='#00ffff' data-particles='#ff00ff'>Color Scheme 3</button>
+  <button class='color-btn' data-bg='#ff00ff' data-particles='#00ff00'>Color Scheme 4</button>
+</div>
+<h1>Welcome to our landing page!</h1>
+<script src='https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'></script>
+<script>
+// Initialize particles.js
+particlesJS('particles-js', {
+  particles: {
+    color: {
+      value: '#ffffff',
+    },
+    line_linked: {
+      color: '#ffffff',
+    },
+    number: {
+      value: 80,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    },
+    move: {
+      speed: 2
+    }
+  },
+  interactivity: {
+    events: {
+      onhover: {
+        enable: true,
+        mode: 'repulse'
+      },
+      onclick: {
+        enable: true,
+        mode: 'push'
+      }
+    },
+    modes: {
+      repulse: {
+        distance: 200,
+        duration: 0.4
+      },
+      push: {
+        particles_nb: 4
+      }
+    }
+  }
+});
+
+// Function to change color scheme of particles
+function changeColorScheme(bgColor, particleColor) {
+  document.body.style.backgroundColor = bgColor;
+  particlesJS.load('particles-js', {
+    particles: {
+      color: {
+        value: particleColor
+      },
+      line_linked: {
+        color: particleColor
+      }
+    }
+  });
+}
+
+// Listen for button clicks and change color scheme
+document.querySelectorAll('.color-btn').forEach(function(button) {
+  button.addEventListener('click', function() {
+    changeColorScheme(this.dataset.bg, this.dataset.particles);
+  });
+});
+
+// Initialize with the first color scheme
+changeColorScheme(document.querySelector('.color-btn').dataset.bg, document.querySelector('.color-btn').dataset.particles);
+</script>
+</body>
+</html>
